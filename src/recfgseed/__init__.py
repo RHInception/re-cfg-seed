@@ -89,6 +89,19 @@ class SeedManager(object):
             raise Exception('Can not create a value for key ' + name)
         return {'name': name, 'value': value}
 
+    def update_content(self, keys, content):
+        """
+        Updates content in the content variable with fresh information.
+
+        :Parameters:
+            - keys: The keys to be looking up.
+            - content: The original content structure.
+        """
+        for k, v in keys.items():
+            conf_item = self.get_key(k, **v)
+            content[k] = conf_item['value']
+        return content
+
     @property
     def keyendpoint(self):
         """
@@ -97,7 +110,7 @@ class SeedManager(object):
         return self._endpoint + '/v2/keys/'
 
 
-def main():
+def main():  # pragma: no cover
     """
     Main function.
     """
@@ -117,12 +130,10 @@ def main():
         with open(args.out_conf[0], 'r') as out_f:
             content = json.load(out_f)
 
-        for k, v in seed_conf['keys'].items():
-            conf_item = manager.get_key(k, **v)
-            content[k] = conf_item['value']
+        content = manager.update_content(seed_conf['keys'], content)
         with open(args.out_conf[0], 'w') as new_f:
             new_f.write(json.dumps(content))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main()
