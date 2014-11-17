@@ -10,7 +10,7 @@
 Name: re-cfg-seed
 Summary: Release Engine etcd configuration seeder
 Version: 0.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Group: Applications/System
 License: AGPLv3
@@ -19,7 +19,7 @@ Url: https://github.com/rhinception/re-cfg-seed
 
 BuildArch: noarch
 BuildRequires: python2-devel, python-setuptools
-Requires: python-requests
+Requires: python-requests, python-setuptools
 
 %description
 A etcd configuration seeding tool. It can ask for config variables
@@ -40,9 +40,11 @@ also applies the variables to a local configuration file.
 %defattr(-, root, root)
 %doc README.md LICENSE AUTHORS
 %dir %{python2_sitelib}/%{_pkg_name}
-%exclude %{python2_sitelib}/%{_pkg_name}/__init__.py*
 
 
 %changelog
+* Mon Nov 17 2014 Steve Milner <stevem@gnulinux.net> - 0.0.1-2
+- Requires setuptools and removed exclude.
+
 * Thu Nov 13 2014 Steve Milner <stevem@gnulinux.net> - 0.0.1-1
 - Initial spec
