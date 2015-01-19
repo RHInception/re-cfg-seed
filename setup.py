@@ -27,7 +27,7 @@ except ImportError:
 
 setup(
     name='recfgseed',
-    version='0.0.1',
+    version='0.0.2',
     description='Config seeder which uses etcd',
     author='See AUTHORS file',
     author_email='inception@redhat.com',

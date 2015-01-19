@@ -173,3 +173,17 @@ class TestReCFGSeed(TestCase):
 
             sm = recfgseed.SeedManager()
             self.assertRaises(Exception, sm.get_key, 'key')
+
+    def test_templatize(self):
+        """
+        Verify templates can be used.
+        """
+        with mock.patch('requests.get') as _get:
+            resp = requests.Response()
+            resp.status_code = 200
+            resp._content = '{"node": {"value": "test"}}'
+            _get.return_value = resp
+
+            sm = recfgseed.SeedManager()
+            result = sm.templatize({'akey': {}}, 'This is a test: {{ akey }}.')
+            self.assertEquals(str(result), 'This is a test: test.')

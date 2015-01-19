@@ -102,6 +102,20 @@ class SeedManager(object):
             content[k] = conf_item['value']
         return content
 
+    def templatize(self, keys, template):
+        """
+        Updates a template with new information.
+
+        :Parameters:
+            - keys: The keys to be looking up.
+            - template: The templace to write over.
+        """
+        for k, v in keys.items():
+            conf_item = self.get_key(k, **v)
+            template = template.replace(
+                '{{ %s }}' % k, conf_item['value'])
+        return template
+
     @property
     def keyendpoint(self):
         """
@@ -121,18 +135,29 @@ def main():  # pragma: no cover
     parser.add_argument(
         'out_conf', metavar='OUT', type=str, nargs=1,
         help='Path to the json file to write values to.')
+    parser.add_argument(
+        '-t', '--template', metavar='TEMPLATE', type=bool,
+        default=False,
+        help='Fills in {{}}s instead of outputing JSON.')
+
     args = parser.parse_args()
 
     with open(args.conf_file[0], 'r') as conf_f:
         seed_conf = json.load(conf_f)
 
         manager = SeedManager(seed_conf['endpoint'])
-        with open(args.out_conf[0], 'r') as out_f:
-            content = json.load(out_f)
 
         content = manager.update_content(seed_conf['keys'], content)
+        if args.template[0]:
+            with open(args.out_conf[0], 'r') as out_f:
+                content = manager.templatize(content, out_f.read())
+        else:
+            with open(args.out_conf[0], 'r') as out_f:
+                content = json.load(out_f)
+            content = json.dumps(content)
+
         with open(args.out_conf[0], 'w') as new_f:
-            new_f.write(json.dumps(content))
+            new_f.write(content)
 
 
 if __name__ == '__main__':  # pragma: no cover

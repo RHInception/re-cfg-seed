@@ -9,8 +9,8 @@
 
 Name: re-cfg-seed
 Summary: Release Engine etcd configuration seeder
-Version: 0.0.1
-Release: 3%{?dist}
+Version: 0.0.2
+Release: 1%{?dist}
 
 Group: Applications/System
 License: AGPLv3
@@ -43,6 +43,10 @@ also applies the variables to a local configuration file.
 
 
 %changelog
+=======
+* Mon Jan 19 2015 Steve Milner <stevem@gnulinux.net> - 0.0.2-1
+- Basic templates now can be used for non json files.
+
 * Mon Nov 18 2014 Ryan Cook <rcook@redhat.com> - 0.0.1-3
 - Requires python argparse.
 
