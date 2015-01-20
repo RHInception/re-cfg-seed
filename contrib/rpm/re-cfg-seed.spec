@@ -43,7 +43,6 @@ also applies the variables to a local configuration file.
 
 
 %changelog
-=======
 * Mon Jan 19 2015 Steve Milner <stevem@gnulinux.net> - 0.0.2-1
 - Basic templates now can be used for non json files.
 
