@@ -49,13 +49,13 @@ class TestReCFGSeed(TestCase):
         """
         # The default endpoint should be this
         sm = recfgseed.SeedManager()
-        assert sm._endpoint == 'http://127.0.0.1:4001'
-        assert sm.keyendpoint == 'http://127.0.0.1:4001/v2/keys/'
+        self.assertEquals(sm._endpoint, 'http://127.0.0.1:4001')
+        self.assertEquals(sm.keyendpoint, 'http://127.0.0.1:4001')
 
         # We should be able to override the endpoint
-        sm = recfgseed.SeedManager('https://127.0.0.2:6001')
-        assert sm._endpoint == 'https://127.0.0.2:6001'
-        assert sm.keyendpoint == 'https://127.0.0.2:6001/v2/keys/'
+        sm = recfgseed.SeedManager('https://127.0.0.2:6001/')
+        self.assertEquals(sm._endpoint, 'https://127.0.0.2:6001/')
+        self.assertEquals(sm.keyendpoint, 'https://127.0.0.2:6001/')
 
     def test_update_content(self):
         """

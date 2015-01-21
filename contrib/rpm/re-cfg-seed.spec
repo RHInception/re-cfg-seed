@@ -10,7 +10,7 @@
 Name: re-cfg-seed
 Summary: Release Engine etcd configuration seeder
 Version: 0.0.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 Group: Applications/System
 License: AGPLv3
@@ -43,6 +43,9 @@ also applies the variables to a local configuration file.
 
 
 %changelog
+* Wed Jan 21 2015 Steve Milner <stevem@gnulinux.net> - 0.0.3-2
+- Endpoint bug fix.
+
 * Mon Jan 19 2015 Steve Milner <stevem@gnulinux.net> - 0.0.3-1
 - If conf_file can set out_file if conf_file ends with .in
 

@@ -121,7 +121,7 @@ class SeedManager(object):
         """
         Endpoint for keys.
         """
-        return self._endpoint + '/v2/keys/'
+        return self._endpoint
 
 
 def main():  # pragma: no cover
@@ -162,15 +162,14 @@ def main():  # pragma: no cover
                 content = in_content.read()
         except IOError:
             # Otherwise just set it to nothing
-            content = ''
+            content = '{}'
 
-        content = manager.update_content(seed_conf['keys'], content)
-        if args.template[0]:
-            with open(args.template[0], 'r') as template_f:
+        content = manager.update_content(
+            seed_conf['keys'], json.loads(content))
+        if args.template:
+            with open(args.template, 'r') as template_f:
                 content = manager.templatize(content, template_f.read())
         else:
-            with open(args.out_conf, 'r') as out_f:
-                content = json.load(out_f)
             content = json.dumps(content)
 
         # Write it out
