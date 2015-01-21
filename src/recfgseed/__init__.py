@@ -133,7 +133,7 @@ def main():  # pragma: no cover
         'conf_file', metavar='CONF', type=str, nargs=1,
         help='Path to the configuration file')
     parser.add_argument(
-        'out_conf', metavar='OUT', type=str, nargs=1,
+        'out_conf', metavar='OUT', type=str, nargs='?',
         help='Path to the json file to write values to.')
     parser.add_argument(
         '-t', '--template', metavar='TEMPLATE', type=bool,
@@ -147,16 +147,34 @@ def main():  # pragma: no cover
 
         manager = SeedManager(seed_conf['endpoint'])
 
+        # If out_conf is not set try to use a sane default
+        if not args.out_conf:
+            if args.conf_file[0].endswith('.in'):
+                args.out_conf = args.conf_file[0][:-3]
+            else:
+                parser.error(
+                    'You must set an out_conf or use a'
+                    ' conf_file which ends with .in')
+
+        # Get content if it is available in the out_conf
+        try:
+            with open(args.out_conf, 'r') as in_content:
+                content = in_content.read()
+        except IOError:
+            # Otherwise just set it to nothing
+            content = ''
+
         content = manager.update_content(seed_conf['keys'], content)
         if args.template[0]:
-            with open(args.out_conf[0], 'r') as out_f:
-                content = manager.templatize(content, out_f.read())
+            with open(args.template[0], 'r') as template_f:
+                content = manager.templatize(content, template_f.read())
         else:
-            with open(args.out_conf[0], 'r') as out_f:
+            with open(args.out_conf, 'r') as out_f:
                 content = json.load(out_f)
             content = json.dumps(content)
 
-        with open(args.out_conf[0], 'w') as new_f:
+        # Write it out
+        with open(args.out_conf, 'w') as new_f:
             new_f.write(content)
 
 

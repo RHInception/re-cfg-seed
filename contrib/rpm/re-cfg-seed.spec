@@ -9,7 +9,7 @@
 
 Name: re-cfg-seed
 Summary: Release Engine etcd configuration seeder
-Version: 0.0.2
+Version: 0.0.3
 Release: 1%{?dist}
 
 Group: Applications/System
@@ -43,6 +43,9 @@ also applies the variables to a local configuration file.
 
 
 %changelog
+* Mon Jan 19 2015 Steve Milner <stevem@gnulinux.net> - 0.0.3-1
+- If conf_file can set out_file if conf_file ends with .in
+
 * Mon Jan 19 2015 Steve Milner <stevem@gnulinux.net> - 0.0.2-1
 - Basic templates now can be used for non json files.
 
