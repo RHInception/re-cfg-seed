@@ -9,8 +9,8 @@
 
 Name: re-cfg-seed
 Summary: Release Engine etcd configuration seeder
-Version: 0.0.3
-Release: 2%{?dist}
+Version: 0.0.4
+Release: 1%{?dist}
 
 Group: Applications/System
 License: AGPLv3
@@ -43,6 +43,9 @@ also applies the variables to a local configuration file.
 
 
 %changelog
+* Wed Jan 21 2015 Steve Milner <stevem@gnulinux.net> - 0.0.4-1
+- Now supports casting results.
+
 * Wed Jan 21 2015 Steve Milner <stevem@gnulinux.net> - 0.0.3-2
 - Endpoint bug fix.
 

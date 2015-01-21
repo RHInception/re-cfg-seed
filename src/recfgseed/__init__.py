@@ -44,6 +44,14 @@ class SeedManager(object):
     Uses etcd to seed json configuration files.
     """
 
+    __casters = {
+        'str': str,
+        'int': int,
+        'unicode': unicode,
+        'bool': bool,
+        'float': float,
+    }
+
     def __init__(self, endpoint='http://127.0.0.1:4001'):
         """
         Creates an instance of the SeedManager.
@@ -98,8 +106,14 @@ class SeedManager(object):
             - content: The original content structure.
         """
         for k, v in keys.items():
+            caster_name = v.get('type', None)
+            if not caster_name:
+                caster_name = 'str'
+            else:
+                del v['type']
+            caster_callable = self.__casters[caster_name]
             conf_item = self.get_key(k, **v)
-            content[k] = conf_item['value']
+            content[k] = caster_callable(conf_item['value'])
         return content
 
     def templatize(self, keys, template):

@@ -187,3 +187,22 @@ class TestReCFGSeed(TestCase):
             sm = recfgseed.SeedManager()
             result = sm.templatize({'akey': {}}, 'This is a test: {{ akey }}.')
             self.assertEquals(str(result), 'This is a test: test.')
+
+    def test_casting(self):
+        """
+        Verify casting works.
+        """
+        with mock.patch('requests.get') as _get:
+            resp = requests.Response()
+            resp.status_code = 200
+            resp._content = '{"node": {"value": "1234"}}'
+            _get.return_value = resp
+
+            sm = recfgseed.SeedManager()
+            result = sm.update_content({'akey': {'type': 'int'}}, {'akey': '___'})
+            assert result['akey'] == 1234
+
+            self.assertRaises(
+                KeyError,
+                sm.update_content,
+                {'newkey': {'type': 'asdasd'}}, {'akey': '___'})
